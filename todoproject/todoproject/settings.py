@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-#=c(zcpd*b4wymucby*%hxndw33g$@!*11cma#vc-uff7ddagf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['todo.botvictus.com', 'www.todo.botvictus.com', 'localhost', '127.0.0.1']
 import os
 
 # Application definition

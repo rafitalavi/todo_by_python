@@ -13,4 +13,4 @@ class Task(models.Model):
     def __str__(self):
         return f"{self.title} - {self.user.username}"
     class Meta:
-        ordering = ['date']    
+        ordering = ['created_at']    
