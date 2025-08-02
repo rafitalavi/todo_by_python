@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 @login_required
 def index(request):
     tasks = Task.objects.filter(user=request.user).order_by('date')  # 👈 Only show user's tasks
-    paginator = Paginator(tasks, 10)
+
     # Filter tasks based on status
     status = request.GET.get('status')
     if status == 'completed':
@@ -27,9 +27,15 @@ def index(request):
         tasks = tasks.filter(created_at__date__gte=start_created)
     if end_created:
         tasks = tasks.filter(created_at__date__lte=end_created)
-    
+    paginator = Paginator(tasks, 10)
+
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    try:
+        page_obj = paginator.get_page(page_number)
+    except Exception as e:  
+        page_obj = paginator.get_page(1)  # Fallback to first page on error  
+        print(f"Error in pagination: {e}")
+
     form = TaskForm()
 
     if request.method == 'POST':

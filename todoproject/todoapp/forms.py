@@ -2,7 +2,7 @@ from django import forms
 from .models import Task
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-
+from ckeditor.widgets import CKEditorWidget
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
@@ -13,7 +13,7 @@ class TaskForm(forms.ModelForm):
                 'class': 'form-control',
                 'min': timezone.localdate().isoformat()  # Prevent past dates
             }),
-            'description': forms.Textarea(attrs={
+            'description': CKEditorWidget(attrs={
                 'rows': 3,
                 'class': 'form-control',
                 'placeholder': 'Enter task details...'

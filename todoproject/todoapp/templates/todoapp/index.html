@@ -80,7 +80,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for task in tasks %}
+            {% for task in page_obj %}
             <tr class="{% if task.completed %}table-success{% elif task.date < today %}table-warning{% endif %}">
                 <td>
                     <strong class="{% if task.completed %}text-decoration-line-through{% endif %}">
@@ -146,22 +146,18 @@
                         <div class="mt-4">
                             <nav aria-label="Task list pagination">
                                 <ul class="pagination justify-content-center">
-                                    {% if page_obj.has_previous %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page=2&status={{ request.GET.status }}&date={{ request.GET.date }}">&laquo; First</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}&status={{ request.GET.status }}&date={{ request.GET.date }}">&lsaquo;
-                                            Prev</a>
-                                    </li>
-                                    {% else %}
-                                    <li class="page-item disabled">
-                                        <span class="page-link">&laquo; First</span>
-                                    </li>
-                                    <li class="page-item disabled">
-                                        <span class="page-link">&lsaquo; Prev</span>
-                                    </li>
-                                    {% endif %}
+                                  {% if page_obj.has_previous %}
+<li class="page-item">
+    <a class="page-link" href="?page=1{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.start_created %}&start_created={{ request.GET.start_created }}{% endif %}{% if request.GET.end_created %}&end_created={{ request.GET.end_created }}{% endif %}">&laquo; First</a>
+</li>
+<li class="page-item">
+    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.start_created %}&start_created={{ request.GET.start_created }}{% endif %}{% if request.GET.end_created %}&end_created={{ request.GET.end_created }}{% endif %}">&lsaquo; Prev</a>
+</li>
+{% else %}
+<li class="page-item disabled"><span class="page-link">&laquo; First</span></li>
+<li class="page-item disabled"><span class="page-link">&lsaquo; Prev</span></li>
+{% endif %}
+
 
                                     <li class="page-item active">
                                         <span class="page-link">
