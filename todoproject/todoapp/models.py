@@ -6,7 +6,7 @@ class Task(models.Model):
     title = models.CharField(max_length=200)
     completed = models.BooleanField(default=False)
     date = models.DateField(null=True, blank=True)
-    description = models.TextField(blank=True, null=True)
+    description =  RichTextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 

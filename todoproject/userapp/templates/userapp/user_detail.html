@@ -1,0 +1,43 @@
+{% extends 'todoapp/base.html' %}
+
+{% block title %}User Detail{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h2>{{ user.username }}'s Profile</h2>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-4">Username</dt>
+            <dd class="col-sm-8">{{ user.username }}</dd>
+
+            <dt class="col-sm-4">Email</dt>
+            <dd class="col-sm-8">{{ user.email }}</dd>
+
+            <dt class="col-sm-4">Role</dt>
+            <dd class="col-sm-8">{% if user.userprofile and user.userprofile.role %}
+                                    {{ user.userprofile.role.name }}
+                                    {% else %}
+                                    N/A
+                                    {% endif %}</dd>
+
+            <dt class="col-sm-4">Phone Number</dt>
+            <dd class="col-sm-8">{% if user.userprofile %}
+                                    {{ user.userprofile.phone_number }}
+                                    {% else %}
+                                    N/A
+                                    {% endif %}</dd>
+          </dl>
+
+          <a href="{% url 'userapp:edit_user' user.id %}" class="btn btn-warning">Edit</a>
+          <a href="{% url 'userapp:user_list' %}" class="btn btn-secondary ms-2">Back to List</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

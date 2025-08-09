@@ -1,0 +1,87 @@
+{% extends 'todoapp/base.html' %}
+{% load form_tags %}
+{{ form.username|add_class:"form-control" }}
+
+{% block title %}
+  {% if user_form.instance.pk %}Edit User{% else %}Create User{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg border-0 rounded-4">
+        
+        <div class="card-header bg-gradient-primary text-white rounded-top-4">
+          <h3 class="mb-0 text-center py-2">
+            {% if user_form.instance.pk %}
+              <i class="bi bi-pencil-square"></i> Edit User
+            {% else %}
+              <i class="bi bi-person-plus"></i> Create User
+            {% endif %}
+          </h3>
+        </div>
+
+        <div class="card-body p-4">
+          <form method="POST" novalidate>
+            {% csrf_token %}
+
+            <!-- User Info Section -->
+            <h5 class="border-bottom pb-2 mb-4 text-primary fw-bold">
+              <i class="bi bi-person-circle"></i> User Information
+            </h5>
+            <div class="row g-3 mb-4">
+              {% for field in user_form %}
+                <div class="col-md-6">
+                  <label for="{{ field.id_for_label }}" class="form-label fw-semibold">{{ field.label }}</label>
+                  {{ field|add_class:"form-control form-control-lg" }}
+                  {% if field.help_text %}
+                    <div class="form-text text-muted small">{{ field.help_text }}</div>
+                  {% endif %}
+                  {% for error in field.errors %}
+                    <div class="text-danger small"><i class="bi bi-exclamation-circle"></i> {{ error }}</div>
+                  {% endfor %}
+                </div>
+              {% endfor %}
+            </div>
+
+            <!-- Profile Info Section -->
+            <h5 class="border-bottom pb-2 mb-4 text-primary fw-bold">
+              <i class="bi bi-card-list"></i> Profile Information
+            </h5>
+            <div class="row g-3 mb-4">
+              {% for field in profile_form %}
+                <div class="col-md-6">
+                  <label for="{{ field.id_for_label }}" class="form-label fw-semibold">{{ field.label }}</label>
+                  {{ field|add_class:"form-control form-control-lg" }}
+                  {% if field.help_text %}
+                    <div class="form-text text-muted small">{{ field.help_text }}</div>
+                  {% endif %}
+                  {% for error in field.errors %}
+                    <div class="text-danger small"><i class="bi bi-exclamation-circle"></i> {{ error }}</div>
+                  {% endfor %}
+                </div>
+              {% endfor %}
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="text-center">
+              <button type="submit" class="btn btn-success btn-lg px-4">
+                {% if user_form.instance.pk %}
+                  <i class="bi bi-save"></i> Update
+                {% else %}
+                  <i class="bi bi-check-circle"></i> Create
+                {% endif %}
+              </button>
+              <a href="{% url 'userapp:user_list' %}" class="btn btn-outline-secondary btn-lg ms-2 px-4">
+                <i class="bi bi-x-circle"></i> Cancel
+              </a>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

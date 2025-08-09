@@ -2,15 +2,22 @@ from datetime import date
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.contrib.auth.decorators import user_passes_test
 from .models import Task
 from .forms import TaskForm
 from django.core.paginator import Paginator
-
+from django.db.models import Case, When, Value, IntegerField
 @login_required
 def index(request):
-    tasks = Task.objects.filter(user=request.user).order_by('date')  # 👈 Only show user's tasks
+    tasks = Task.objects.filter(user=request.user).order_by(Case(
+        When(completed=False, then=Value(0)),
+        When(completed=True, then=Value(1)),
+        output_field=IntegerField(),
+    ),
+    '-created_at')  # 👈 Only show user's tasks
 
     # Filter tasks based on status
     status = request.GET.get('status')
@@ -88,15 +95,18 @@ def edit_task(request, task_id):
         'form': form,
         'task': task
     })
-def register_view(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')
-    else:
-        form = UserCreationForm()
-    return render(request, 'todoapp/register.html', {'form': form})
+
+
+   
+# def register_view(request):
+#     if request.method == 'POST':
+#         form = UserCreationForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('login')
+#     else:
+#         form = UserCreationForm()
+#     return render(request, 'todoapp/register.html', {'form': form})
 
 
 def login_view(request):

@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'todoapp',
     'ckeditor',
+    'roleapp',
+    'userapp',
     # 'django.contrib.messages',
 ]
 CKEDITOR5_CONFIGS = {
