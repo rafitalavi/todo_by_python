@@ -1,6 +1,5 @@
 {% extends 'todoapp/base.html' %}
-{% load form_tags %}
-{{ form.username|add_class:"form-control" }}
+{% load widget_tweaks %}
 
 {% block title %}
   {% if user_form.instance.pk %}Edit User{% else %}Create User{% endif %}
@@ -33,14 +32,27 @@
             <div class="row g-3 mb-4">
               {% for field in user_form %}
                 <div class="col-md-6">
-                  <label for="{{ field.id_for_label }}" class="form-label fw-semibold">{{ field.label }}</label>
-                  {{ field|add_class:"form-control form-control-lg" }}
-                  {% if field.help_text %}
-                    <div class="form-text text-muted small">{{ field.help_text }}</div>
+                  {% if field.field.widget.input_type == "checkbox" %}
+                    <div class="form-check mt-4">
+                      {{ field|add_class:"form-check-input" }}
+                      <label class="form-check-label fw-semibold" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                      {% if field.help_text %}
+                        <div class="form-text text-muted small">{{ field.help_text }}</div>
+                      {% endif %}
+                      {% for error in field.errors %}
+                        <div class="text-danger small"><i class="bi bi-exclamation-circle"></i> {{ error }}</div>
+                      {% endfor %}
+                    </div>
+                  {% else %}
+                    <label for="{{ field.id_for_label }}" class="form-label fw-semibold">{{ field.label }}</label>
+                    {{ field|add_class:"form-control form-control-lg" }}
+                    {% if field.help_text %}
+                      <div class="form-text text-muted small">{{ field.help_text }}</div>
+                    {% endif %}
+                    {% for error in field.errors %}
+                      <div class="text-danger small"><i class="bi bi-exclamation-circle"></i> {{ error }}</div>
+                    {% endfor %}
                   {% endif %}
-                  {% for error in field.errors %}
-                    <div class="text-danger small"><i class="bi bi-exclamation-circle"></i> {{ error }}</div>
-                  {% endfor %}
                 </div>
               {% endfor %}
             </div>
@@ -52,14 +64,27 @@
             <div class="row g-3 mb-4">
               {% for field in profile_form %}
                 <div class="col-md-6">
-                  <label for="{{ field.id_for_label }}" class="form-label fw-semibold">{{ field.label }}</label>
-                  {{ field|add_class:"form-control form-control-lg" }}
-                  {% if field.help_text %}
-                    <div class="form-text text-muted small">{{ field.help_text }}</div>
+                  {% if field.field.widget.input_type == "checkbox" %}
+                    <div class="form-check mt-4">
+                      {{ field|add_class:"form-check-input" }}
+                      <label class="form-check-label fw-semibold" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                      {% if field.help_text %}
+                        <div class="form-text text-muted small">{{ field.help_text }}</div>
+                      {% endif %}
+                      {% for error in field.errors %}
+                        <div class="text-danger small"><i class="bi bi-exclamation-circle"></i> {{ error }}</div>
+                      {% endfor %}
+                    </div>
+                  {% else %}
+                    <label for="{{ field.id_for_label }}" class="form-label fw-semibold">{{ field.label }}</label>
+                    {{ field|add_class:"form-control form-control-lg" }}
+                    {% if field.help_text %}
+                      <div class="form-text text-muted small">{{ field.help_text }}</div>
+                    {% endif %}
+                    {% for error in field.errors %}
+                      <div class="text-danger small"><i class="bi bi-exclamation-circle"></i> {{ error }}</div>
+                    {% endfor %}
                   {% endif %}
-                  {% for error in field.errors %}
-                    <div class="text-danger small"><i class="bi bi-exclamation-circle"></i> {{ error }}</div>
-                  {% endfor %}
                 </div>
               {% endfor %}
             </div>

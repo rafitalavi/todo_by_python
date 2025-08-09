@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'roleapp',
     'userapp',
+    'widget_tweaks',
     # 'django.contrib.messages',
 ]
 CKEDITOR5_CONFIGS = {
